@@ -44,6 +44,11 @@ public class RegistrationActivity extends AppCompatActivity {
                     .setMessage("Такой email уже зарегистрирован!")
                     .setPositiveButton("Ok", null)
                     .show();
+        else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches())
+            new AlertDialog.Builder(this).setTitle("Ошибка")
+                    .setMessage("Неправильный формат email!")
+                    .setPositiveButton("Ok", null)
+                    .show();
         else{
             db.addUser(new User(email.getText().toString(), password.getText().toString()));
             this.finish();
