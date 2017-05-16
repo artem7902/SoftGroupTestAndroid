@@ -6,15 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
+import com.softgroup.softgrouptest.com.softgroup.softgrouptest.database.DatabaseHandler;
+import com.softgroup.softgrouptest.com.softgroup.softgrouptest.database.User;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class RegistrationActivity extends AppCompatActivity {
-
+    DatabaseHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        db = new DatabaseHandler(this);
     }
     public void registerClick(View view){
         EditText email=(EditText) findViewById(R.id.email_input);
@@ -35,13 +39,13 @@ public class RegistrationActivity extends AppCompatActivity {
                     .setMessage("Пароль и подтверждение не совпадают!")
                     .setPositiveButton("Ok", null)
                     .show();
-        else if(MyDataStorage.getInstance().CheckEmail(email.getText().toString()))
+        else if(db.getUser(email.getText().toString())!=null)
             new AlertDialog.Builder(this).setTitle("Ошибка")
                     .setMessage("Такой email уже зарегистрирован!")
                     .setPositiveButton("Ok", null)
                     .show();
         else{
-            MyDataStorage.getInstance().AddToHash(email.getText().toString(), password.getText().toString());
+            db.addUser(new User(email.getText().toString(), password.getText().toString()));
             this.finish();
         }
     }

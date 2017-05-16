@@ -1,5 +1,6 @@
 package com.softgroup.softgrouptest;
 
+import android.content.SharedPreferences;
 import android.view.*;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     public void LogOutClick(View view){
+        getApplicationContext().getSharedPreferences("EmailPass", 0).edit().clear().commit();
         this.finish();
     }
 }
